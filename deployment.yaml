@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  teste
+  namespace: mn
+  labels:
+    app:  teste
+spec:
+  selector:
+    matchLabels:
+      app: teste
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: teste
+    spec:
+      containers:
+      - name:  teste
+        image:  teste:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: name
+          valueFrom:
+            configMapKeyRef:
+              name: testeconf
+              key: name
+        - name: password
+          valueFrom:
+            secretKeyRef:
+              name: mysecret
+              key: password
+        ports:
+        - containerPort:  80
+          name:  teste
+
