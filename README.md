@@ -1,1 +1,1 @@
-# DevOos
+# DevOps
